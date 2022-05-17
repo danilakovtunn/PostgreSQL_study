@@ -1,0 +1,10 @@
+-- Вывести top 10 пассажиров (паспорт + имя) по суммарной стоимости 
+-- полетов за июль 2017 года (бронирования в этот период)
+SELECT (tick.passenger_name || '(' || tick.passenger_id || ')') AS passenger, SUM(t_fl.amount) AS "total amount"
+FROM bookings b, tickets tick, ticket_flights t_fl
+WHERE b.book_ref = tick.book_ref AND
+      t_fl.ticket_no = tick.ticket_no AND
+	  b.book_date between make_date(2017, 7, 1) AND make_date(2017, 7, 31)
+GROUP BY tick.passenger_name, tick.passenger_id
+ORDER BY "total amount" DESC
+LIMIT 10
